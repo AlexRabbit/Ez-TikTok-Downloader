@@ -23,10 +23,8 @@
 ## How to Use?
 
  1. Open `Run.bat` or do `python tt.py`
-
 It will ask you for the post link or path 
-
- 1. Just send the link.
+ 2. Just send the link.
 
 
 **You want to batch download?**
