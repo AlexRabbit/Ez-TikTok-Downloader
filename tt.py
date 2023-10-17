@@ -35,7 +35,7 @@ def download_video(tiktok_url):
                 os.makedirs(username)
 
             # Generate a filename for the video
-            filename = os.path.join(username, f"{username}_{date_of_publish}_{video_id}.mp4")
+            filename = os.path.join(username, f"{username}_{video_id}.mp4")
 
             # Check if the file already exists
             if not os.path.exists(filename):
