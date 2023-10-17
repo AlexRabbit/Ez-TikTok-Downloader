@@ -5,9 +5,10 @@
  - Download videos in HD
  - No Watermark
  - Download in Username folder
- - Archivist filename-ready `“username_dateofpublish_videoID”`
+ - Archivist filename-ready `“username_videoID”`
  - From URL
  - From .TXT
+ - Skips douplicates
 
 ## How to Install?
 
