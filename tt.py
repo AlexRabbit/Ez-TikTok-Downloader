@@ -40,7 +40,7 @@ def download_video(tiktok_url):
             # Check if the file already exists
             if not os.path.exists(filename):
                 # Download the video and save it inside the folder
-                video_url_without_watermark = response_data['data']['play']
+                video_url_without_watermark = response_data['data']['hdplay']
                 video_data = requests.get(video_url_without_watermark).content
                 with open(filename, 'wb') as video_file:
                     video_file.write(video_data)
