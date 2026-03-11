@@ -1,1 +1,3 @@
-python tt.py
+@echo off
+python tt.py %*
+pause

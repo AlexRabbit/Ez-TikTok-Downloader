@@ -1,3 +1,2 @@
-tiktok-api
-requests
-datetime 
+# Ez-TikTok-Downloader: TikWM API + local cache + download
+requests>=2.28.0
