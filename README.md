@@ -5,12 +5,10 @@
 ### *Download TikTok videos without watermark — elegant, cached, and folder-per-creator.*
 
 [![Python](https://img.shields.io/badge/Python-3.8+-3776AB?style=for-the-badge&logo=python&logoColor=white)](https://www.python.org/)
-[![Windows](https://img.shields.io/badge/Windows-10%20%7C%2011-0078D6?style=for-the-badge&logo=windows&logoColor=white)](https://www.microsoft.com/windows)
 [![License: Unlicense](https://img.shields.io/badge/License-Unlicense-lightgrey?style=for-the-badge)](./LICENSE)
 
 **🚫 No watermark · 📺 HD when available · 💾 Smart link cache · 📁 Neat filenames**
 
-*So easy your grandma could run it.* 👵✨
 
 </div>
 
@@ -29,40 +27,9 @@
 
 </td>
 <td width="50%">
-
-### 📸 Screenshots
-
-| Step | Add your image |
-|------|----------------|
-| Run prompt | Save as `assets/run-prompt.png` and uncomment below |
-| Folder structure | Save as `assets/folders.png` and uncomment below |
-
-<!-- Uncomment when you add images:
-<p align="center">
-  <img src="assets/run-prompt.png" width="480" alt="Run prompt">
-  <img src="assets/folders.png" width="480" alt="Folder structure">
-</p>
--->
-
 </td>
 </tr>
 </table>
-
----
-
-## 📑 Table of contents
-
-- [What is this?](#-what-is-this)
-- [What you get](#-what-you-get)
-- [Prerequisites](#-prerequisites)
-- [Installation (step by step)](#-installation-step-by-step)
-- [How to use](#-how-to-use)
-- [Private videos (session ID)](#-private-videos-session-id)
-- [Where do my files go?](#-where-do-my-files-go)
-- [The magic cache](#-the-magic-cache)
-- [Troubleshooting](#-troubleshooting)
-- [FAQ](#-faq)
-- [Acknowledgements](#-acknowledgements)
 
 ---
 
@@ -72,6 +39,8 @@
 
 | Feature | Description |
 |--------|--------------|
+| 🌐 **ORIGINAL QUALITY** | Uses tikWM api so it downloads original quality videos. |
+| ✨ **PRIVATE VIDEOS** | Add your cookie sessionID and you are good to go. |
 | 🚫 **No watermark** | Saves the video without the TikTok logo overlay. |
 | 📁 **Organized by creator** | Everything goes into folders by username (and story/highlight subfolders when applicable). |
 | 📅 **Smart filenames** | `Username - Date(YY-mm-dd) - ProfileUniqueID - idPost` — archivist-friendly and sortable. |
@@ -105,24 +74,6 @@ All without watermark, with a local cache so re-runs (or crashes) don’t waste 
 
 ---
 
-## 🛠 Prerequisites
-
-You need exactly two things:
-
-| # | What | Why |
-|---|------|-----|
-| 1️⃣ | **Windows 10/11** | The `.bat` setup is for Windows. (The Python script can run elsewhere if you run it manually.) |
-| 2️⃣ | **Internet** | To fetch TikTok pages and download the files. |
-
-**Python** is optional at first: the installer can try to install it for you (see [Installation](#-installation-step-by-step)).
-
-```
-┌─────────────────────────────────────────────────────────┐
-│  📦 You need:  Windows  +  Internet  +  (Python via bat) │
-└─────────────────────────────────────────────────────────┘
-```
-
----
 
 ## 📥 Installation (step by step)
 
@@ -172,7 +123,7 @@ You should see at least:
 3. Paste a link, for example:  
    `https://www.tiktok.com/@creator/video/7123456789012345678`
 4. Press **Enter**.  
-   The video will be downloaded into the current folder (see [Where do my files go?](#-where-do-my-files-go)).
+   The video will be downloaded into the current folder.
 
 ### Many videos (batch)
 
@@ -211,8 +162,8 @@ To download **private** or **friends-only** videos, you can give the script your
 5. Paste **only the session ID value** into that file (one line, no spaces). Save and close.
 
    You can paste either:
-   - Just the value: `5b1e4c753e7f00fc5400d85856eb0d67`
-   - Or the full form: `sessionid=5b1e4c753e7f00fc5400d85856eb0d67`  
+   - Just the value: `5b1e4c753e7ftest00d85856eb0d67`
+   - Or the full form: `sessionid=5b1e4c75test56eb0d67`  
    Both work.
 
 6. Run the script as usual. If it finds `sessionid.txt`, it will print **“Using session ID from sessionid.txt (private videos supported).”** and use that cookie when asking TikWM for links.
@@ -227,30 +178,7 @@ To **stop** using your session, delete `sessionid.txt` or clear its contents.
 
 Everything is saved in a **`profiles`** folder inside the directory where you ran the script (usually the same folder as `tt.py`).
 
-### Folder structure
 
-- All creator folders live under **`profiles/`**.
-- **Normal videos** → `profiles/username/`.
-- **Stories** → `profiles/username/story/`.
-- **Highlights** → `profiles/username/highlight/`.
-
-Example:
-
-```text
-📁 (your project folder)
-├── 📁 profiles
-│   ├── 📁 example_creator
-│   │   ├── example_creator - 25-06-15 - 6789012345678901234 - 7123456789012345678.mp4
-│   │   ├── 📁 story
-│   │   │   └── example_creator - 25-06-14 - 6789012345678901234 - 7123456789012345670.mp4
-│   │   └── 📁 highlight
-│   │       └── example_creator - 25-06-13 - 6789012345678901234 - 7123456789012345600.mp4
-│   └── 📁 another_user
-│       └── another_user - 25-06-12 - 1234567890123456789 - 7023456789012345678.mp4
-├── tt.py
-├── run.bat
-├── requirements.txt
-└── link_cache.json
 ```
 
 ### Filename format
@@ -321,9 +249,6 @@ A: **`link_cache.json`** in the same folder where you run `tt.py` (usually the p
 **Q: Can I change the download folder?**  
 A: Run the script from the folder where you want the **`profiles`** folder to appear (e.g. `cd C:\Videos`, then `python path\to\tt.py`). Downloads will go to `profiles/` inside that directory. The cache file (`link_cache.json`) is created in the same directory where you run the script.
 
-**Q: Stories vs highlights?**  
-A: The script detects **story** and **highlight** from the URL path and puts those in **`username/story`** and **`username/highlight`** respectively. Normal videos go in **`username/`**.
-
 **Q: Is this against TikTok’s rules?**  
 A: Use it for content you’re allowed to download (e.g. your own, or where you have permission). The authors are not responsible for misuse.
 
@@ -338,7 +263,6 @@ A: Use it for content you’re allowed to download (e.g. your own, or where you 
 
 <div align="center">
 
-**Made with care for archivists and grandmas alike.** 🧓📦  
 
 *If you found it useful, a ⭐ on GitHub is always appreciated.*
 
@@ -347,3 +271,4 @@ A: Use it for content you’re allowed to download (e.g. your own, or where you 
 <sub>🎬 Ez-TikTok-Downloader · No watermark · Cache · Session ID · Profiles folder</sub>
 
 </div>
+
