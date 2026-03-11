@@ -25,9 +25,7 @@
 3. Paste a TikTok URL or path to a `.txt` file
 4. Done! Check the **`profiles`** folder 🎉
 
-</td>
-<td width="50%">
-</td>
+
 </tr>
 </table>
 
@@ -271,4 +269,5 @@ A: Use it for content you’re allowed to download (e.g. your own, or where you 
 <sub>🎬 Ez-TikTok-Downloader · No watermark · Cache · Session ID · Profiles folder</sub>
 
 </div>
+
 
