@@ -7,7 +7,7 @@
 [![Python](https://img.shields.io/badge/Python-3.8+-3776AB?style=for-the-badge&logo=python&logoColor=white)](https://www.python.org/)
 [![License: Unlicense](https://img.shields.io/badge/License-Unlicense-lightgrey?style=for-the-badge)](./LICENSE)
 
-**🚫 No watermark · 📺 HD when available · 💾 Smart link cache · 📁 Neat filenames**
+**🚫 No watermark · 📺 ORIGINAL QUALITY · 💾 Smart link cache · 📁 Neat filenames**
 
 
 </div>
@@ -269,6 +269,7 @@ A: Use it for content you’re allowed to download (e.g. your own, or where you 
 <sub>🎬 Ez-TikTok-Downloader · No watermark · Cache · Session ID · Profiles folder</sub>
 
 </div>
+
 
 
 
