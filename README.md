@@ -1,3 +1,5 @@
+If this helped you, consider starring the repo ⭐
+
 <div align="center">
 
 # 🎬 Ez-TikTok-Downloader
@@ -269,6 +271,7 @@ A: Use it for content you’re allowed to download (e.g. your own, or where you 
 <sub>🎬 Ez-TikTok-Downloader · No watermark · Cache · Session ID · Profiles folder</sub>
 
 </div>
+
 
 
 
