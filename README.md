@@ -257,7 +257,7 @@ A: Use it for content you’re allowed to download (e.g. your own, or where you 
 ## 🙏 Acknowledgements
 
 - **[TikWM](https://www.tikwm.com)** — This project uses TikWM’s API to fetch no-watermark download links. Thanks to them for providing the service.
-- Other tools that use the same API (e.g. [Tikorgzo](https://github.com/Scoofszlo/Tikorgzo)) are separate projects; this one is an independent implementation with its own features (link cache, session ID file, profiles folder, custom filenames).
+ 
 
 ---
 
