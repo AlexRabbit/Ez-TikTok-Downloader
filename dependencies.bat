@@ -1,5 +1,6 @@
 @echo off
 setlocal
+cd /d "%~dp0"
 echo ============================================
 echo  Ez-TikTok-Downloader - Full setup
 echo ============================================
@@ -21,7 +22,7 @@ goto :no_python
 echo [1/3] Python found.
 if defined PY_LAUNCHER (
   py -3 --version
-  set "PYCMD=py -3"
+  set "PYCMD=py"
 ) else (
   python --version
   set "PYCMD=python"
@@ -53,10 +54,18 @@ exit /b 0
 
 :install_deps
 echo [2/3] Upgrading pip...
-"%PYCMD%" -m pip install --upgrade pip
+if defined PY_LAUNCHER (
+  %PYCMD% -3 -m pip install --upgrade pip
+) else (
+  %PYCMD% -m pip install --upgrade pip
+)
 echo.
 echo [3/3] Installing Python packages from requirements.txt...
-"%PYCMD%" -m pip install -r requirements.txt
+if defined PY_LAUNCHER (
+  %PYCMD% -3 -m pip install -r requirements.txt
+) else (
+  %PYCMD% -m pip install -r requirements.txt
+)
 echo.
 echo ============================================
 echo  Setup complete. Use run.bat or: python tt.py
