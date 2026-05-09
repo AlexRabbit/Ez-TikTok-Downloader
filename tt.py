@@ -9,6 +9,7 @@ from __future__ import annotations
 import json
 import os
 import re
+import subprocess
 import sys
 import time
 from datetime import datetime
@@ -125,19 +126,26 @@ def extract_video_id_from_url(url: str) -> Optional[str]:
     return m.group(1) if m else None
 
 
+def extract_media_id_from_url(url: str) -> Optional[str]:
+    m = re.search(r"/(?:video|photo)/(\d+)", url)
+    return m.group(1) if m else None
+
+
 def content_type_from_url(url: str) -> str:
-    """Return 'story', 'highlight', or 'video' from URL path."""
+    """Return 'story', 'highlight', 'photo', or 'video' from URL path."""
     u = url.lower()
     if "/story" in u:
         return "story"
     if "highlight" in u:
         return "highlight"
+    if "/photo/" in u:
+        return "photo"
     return "video"
 
 
 def url_candidates(tiktok_url: str) -> list[str]:
     normalized = normalize_tiktok_url(tiktok_url)
-    video_id = extract_video_id_from_url(normalized)
+    video_id = extract_media_id_from_url(normalized)
     candidates = [normalized]
     if video_id:
         for u in (
@@ -152,11 +160,69 @@ def url_candidates(tiktok_url: str) -> list[str]:
     return candidates
 
 
+def resolve_tiktok_redirect(url: str) -> str:
+    """
+    Resolve TikTok short links (vt/vm) to canonical URLs.
+    Falls back to original URL on network errors.
+    """
+    u = url.strip()
+    if not re.search(r"https?://(vt|vm)\.tiktok\.com/", u, re.IGNORECASE):
+        return u
+    try:
+        r = requests.get(
+            u,
+            headers={"User-Agent": TIKWM_HEADERS["User-Agent"]},
+            timeout=REQUEST_TIMEOUT,
+            allow_redirects=True,
+        )
+        if r.url and "tiktok.com" in r.url.lower():
+            return r.url
+    except requests.RequestException:
+        pass
+    return u
+
+
+def count_images_in_folder(folder: str) -> int:
+    if not os.path.isdir(folder):
+        return 0
+    total = 0
+    for name in os.listdir(folder):
+        p = os.path.join(folder, name)
+        if not os.path.isfile(p):
+            continue
+        low = name.lower()
+        if low.endswith((".jpg", ".jpeg", ".png", ".webp")):
+            total += 1
+    return total
+
+
+def gallery_dl_photo_fallback(tiktok_url: str, output_dir: str, username: str) -> bool:
+    """
+    Download TikTok photo/slideshow posts with gallery-dl.
+    This fallback is only used for photo posts when TikWM fails.
+    """
+    folder = os.path.join(output_dir, sanitize_filename(username or "unknown"), "photo")
+    os.makedirs(folder, exist_ok=True)
+    before_images = count_images_in_folder(folder)
+    cmd = [sys.executable, "-m", "gallery_dl", "--no-skip", "-D", folder, tiktok_url]
+    try:
+        run = subprocess.run(cmd, capture_output=True, text=True, timeout=180)
+    except Exception:
+        return False
+    if run.returncode != 0:
+        return False
+    after_images = count_images_in_folder(folder)
+    if after_images <= before_images:
+        return False
+    print(f"Downloaded {after_images - before_images} image(s) with gallery-dl -> {folder}")
+    return True
+
+
 def submit_tikwm_task(tiktok_url: str) -> Optional[dict]:
     """Return { play_url, username, video_id, images, create_time, profile_uid } or None."""
     candidates = url_candidates(tiktok_url)
     username_from_url = extract_username_from_url(tiktok_url) or "unknown"
-    video_id_from_url = extract_video_id_from_url(tiktok_url)
+    video_id_from_url = extract_media_id_from_url(tiktok_url)
     session_id = load_sessionid()
     api_headers = tikwm_headers_with_session(session_id)
 
@@ -282,7 +348,7 @@ def do_download(entry: dict, output_dir: str) -> bool:
     folder = os.path.join(output_dir, username, sub) if sub else os.path.join(output_dir, username)
     os.makedirs(folder, exist_ok=True)
 
-    if images and not play_url:
+    if images and (not play_url or content_type == "photo"):
         ok = 0
         base_name = build_filename(entry, "") or f"{username}_{video_id}"
         for i, item in enumerate(images):
@@ -327,7 +393,8 @@ def process_one_url(tiktok_url: str, cache: dict, output_dir: str) -> bool:
         print(f"Skipped (not TikTok): {tiktok_url[:60]}...")
         return False
 
-    video_id = extract_video_id_from_url(tiktok_url) or "unknown"
+    tiktok_url = resolve_tiktok_redirect(tiktok_url)
+    video_id = extract_media_id_from_url(tiktok_url) or "unknown"
     username_from_url = extract_username_from_url(tiktok_url) or "unknown"
 
     content_type = content_type_from_url(tiktok_url)
@@ -347,8 +414,12 @@ def process_one_url(tiktok_url: str, cache: dict, output_dir: str) -> bool:
     print(f"Extracting link for {video_id}...")
     result = submit_tikwm_task(tiktok_url)
     if not result:
-        print(f"Extraction failed for {video_id}")
-        return False
+        if content_type == "photo":
+            print(f"TikWM extraction failed for photo/slideshow {video_id}, trying gallery-dl fallback...")
+            return gallery_dl_photo_fallback(tiktok_url, output_dir, username_from_url)
+        if not result:
+            print(f"Extraction failed for {video_id}")
+            return False
 
     content_type = content_type_from_url(tiktok_url)
     # Persist to cache immediately so a crash doesn't lose this link

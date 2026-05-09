@@ -39,7 +39,8 @@ If this helped you, consider starring the repo ⭐
 
 | Feature | Description |
 |--------|--------------|
-| 🌐 **ORIGINAL QUALITY** | Uses tikWM api so it downloads original quality videos. |
+| 🌐 **ORIGINAL QUALITY** | Uses TikWM API for direct video links in original quality. |
+| 🖼️ **Photo/slideshow fallback** | If TikWM fails on a TikTok photo post, falls back to `gallery-dl` (photos/slideshows only). |
 | ✨ **PRIVATE VIDEOS** | Add your cookie sessionID and you are good to go. |
 | 🚫 **No watermark** | Saves the video without the TikTok logo overlay. |
 | 📁 **Organized by creator** | Everything goes into folders by username (and story/highlight subfolders when applicable). |
@@ -229,7 +230,7 @@ So: first run = extract + download. After a crash or a new run = cached links ar
 |--------|--------------|
 | **“Python not found”** | Run **`dependencies.bat`** again. If it installed Python, **close the window, open a new Command Prompt**, go back to the project folder, run **`dependencies.bat`** once more. |
 | **“No module named 'requests'”** | Open a Command Prompt in the project folder and run: `pip install -r requirements.txt` |
-| **“Extraction failed”** | The link might be invalid, private, or the service might be busy. Try again later or with another link. |
+| **“Extraction failed”** | The link might be invalid/private, or upstream service is busy. For `/photo/` links the tool auto-tries a `gallery-dl` fallback. |
 | **“File not found” (when using a .txt)** | Type the **full path** to the file (e.g. `C:\Users\You\Desktop\urls.txt`). |
 | **Videos not playing** | Make sure you’re not opening the file while it’s still being written. Wait for “Downloaded: …” to appear. |
 
