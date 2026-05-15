@@ -167,7 +167,7 @@ To download **private** or **friends-only** videos, you can give the script your
    - Or the full form: `sessionid=5b1e4c75test56eb0d67`  
    Both work.
 
-6. Run the script as usual. If it finds `sessionid.txt`, it will print **“Using session ID from sessionid.txt (private videos supported).”** and use that cookie when asking TikWM for links.
+6. Run the script as usual. If it finds `sessionid.txt`, it will print **“Using session ID from sessionid.txt (private videos supported).”** and use that cookie when asking TikWM for links (and for **photo/slideshow** downloads via the gallery-dl fallback).
 
 To **stop** using your session, delete `sessionid.txt` or clear its contents.
 

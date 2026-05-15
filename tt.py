@@ -35,6 +35,7 @@ BATCH_DELAY_SEC = 2
 # Cache: video_id -> { "username", "play_url", "images" (optional list) }
 CACHE_FILENAME = "link_cache.json"
 SESSIONID_FILENAME = "sessionid.txt"
+GALLERY_DL_COOKIES_FILENAME = ".gallery_dl_cookies.txt"
 
 TIKWM_HEADERS = {
     "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:141.0) Gecko/20100101 Firefox/141.0",
@@ -196,6 +197,15 @@ def count_images_in_folder(folder: str) -> int:
     return total
 
 
+def write_gallery_dl_cookies_file(session_id: str) -> str:
+    """Write a Netscape cookies.txt for gallery-dl using the TikTok sessionid."""
+    path = os.path.join(os.getcwd(), GALLERY_DL_COOKIES_FILENAME)
+    with open(path, "w", encoding="utf-8") as f:
+        f.write("# Netscape HTTP Cookie File\n\n")
+        f.write(f"#HttpOnly_.tiktok.com\tTRUE\t/\tTRUE\t0\tsessionid\t{session_id}\n")
+    return path
+
+
 def gallery_dl_photo_fallback(tiktok_url: str, output_dir: str, username: str) -> bool:
     """
     Download TikTok photo/slideshow posts with gallery-dl.
@@ -204,12 +214,21 @@ def gallery_dl_photo_fallback(tiktok_url: str, output_dir: str, username: str) -
     folder = os.path.join(output_dir, sanitize_filename(username or "unknown"), "photo")
     os.makedirs(folder, exist_ok=True)
     before_images = count_images_in_folder(folder)
-    cmd = [sys.executable, "-m", "gallery_dl", "--no-skip", "-D", folder, tiktok_url]
+    cmd = [sys.executable, "-m", "gallery_dl", "--no-skip", "-D", folder]
+    session_id = load_sessionid()
+    if session_id:
+        cookies_path = write_gallery_dl_cookies_file(session_id)
+        cmd.extend(["--cookies", cookies_path])
+        print("Using session ID for gallery-dl photo fallback.")
+    cmd.append(tiktok_url)
     try:
         run = subprocess.run(cmd, capture_output=True, text=True, timeout=180)
     except Exception:
         return False
     if run.returncode != 0:
+        err = (run.stderr or run.stdout or "").strip()
+        if err:
+            print(f"gallery-dl failed: {err[:500]}")
         return False
     after_images = count_images_in_folder(folder)
     if after_images <= before_images:
