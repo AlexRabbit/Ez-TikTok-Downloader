@@ -167,11 +167,21 @@ To download **private** or **friends-only** videos, you can give the script your
    - Or the full form: `sessionid=5b1e4c75test56eb0d67`  
    Both work.
 
-6. Run the script as usual. If it finds `sessionid.txt`, it will print **“Using session ID from sessionid.txt (private videos supported).”** and use that cookie when asking TikWM for links (and for **photo/slideshow** downloads via the gallery-dl fallback).
+6. Run the script as usual. If it finds `sessionid.txt`, it will print **“Using session ID from sessionid.txt (private videos supported).”** and use that cookie when asking TikWM for links.
 
 To **stop** using your session, delete `sessionid.txt` or clear its contents.
 
-> ⚠️ **Keep your session ID secret.** Don’t share the file or commit it to Git. Anyone with it can act as your account. Add `sessionid.txt` to `.gitignore` if you use version control.
+> ⚠️ **Keep your session ID secret.** Don’t share the file or commit it to Git. Anyone with it can act as your account.
+
+### Photo/slideshow fallback (`cookies.txt`)
+
+For **photo/slideshow** posts, the flow is: **TikWM (with `sessionid.txt`) → if that fails → gallery-dl with `cookies.txt`**.
+
+1. Export your TikTok cookies as **Netscape format** (browser extension such as “Get cookies.txt LOCALLY”).
+2. In the **same folder as `tt.py`**, save them as **`cookies.txt`** (see `cookies.txt.example`).
+3. gallery-dl always uses `--cookies cookies.txt` on photo/slideshow fallback.
+
+> ⚠️ **Keep `cookies.txt` secret** — do not commit it. It is listed in `.gitignore`.
 
 ---
 
@@ -230,7 +240,7 @@ So: first run = extract + download. After a crash or a new run = cached links ar
 |--------|--------------|
 | **“Python not found”** | Run **`dependencies.bat`** again. If it installed Python, **close the window, open a new Command Prompt**, go back to the project folder, run **`dependencies.bat`** once more. |
 | **“No module named 'requests'”** | Open a Command Prompt in the project folder and run: `pip install -r requirements.txt` |
-| **“Extraction failed”** | The link might be invalid/private, or upstream service is busy. For `/photo/` links the tool auto-tries a `gallery-dl` fallback. |
+| **“Extraction failed”** | The link might be invalid/private, or upstream service is busy. For `/photo/` links the tool auto-tries `gallery-dl` with `cookies.txt`. |
 | **“File not found” (when using a .txt)** | Type the **full path** to the file (e.g. `C:\Users\You\Desktop\urls.txt`). |
 | **Videos not playing** | Make sure you’re not opening the file while it’s still being written. Wait for “Downloaded: …” to appear. |
 
@@ -242,7 +252,7 @@ So: first run = extract + download. After a crash or a new run = cached links ar
 A: No. Public links are enough.
 
 **Q: Can I download private videos?**  
-A: **Yes**, if you add your TikTok session ID to **`sessionid.txt`** (see [Private videos (session ID)](#-private-videos-session-id)). Otherwise only public links work.
+A: **Yes** for videos: add **`sessionid.txt`**. For **private photo/slideshow** posts, also add **`cookies.txt`** (Netscape export) for the gallery-dl fallback.
 
 **Q: Where is the cache file?**  
 A: **`link_cache.json`** in the same folder where you run `tt.py` (usually the project folder). You can delete it to start with a fresh cache.

@@ -2,4 +2,4 @@ profiles/
 profiles_test/
 link_cache.json
 sessionid.txt
-.gallery_dl_cookies.txt
+cookies.txt
