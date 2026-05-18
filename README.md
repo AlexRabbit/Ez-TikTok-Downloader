@@ -32,6 +32,9 @@ If this helped you, consider starring the repo ⭐
 </table>
 
 ---
+[If you want to use it from your browser and not an app, you can use my TikTok download Userscript. 
+Just make sure to use the TikTok file here. ](https://github.com/AlexRabbit/Userscripts)
+---
 
 ## 🎯 What is this?
 
