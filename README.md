@@ -15,6 +15,8 @@ If this helped you, consider starring the repo ⭐
 </div>
 
 ---
+[DOWNLOAD THE APP](https://github.com/AlexRabbit/Ez-TikTok-Downloader/archive/refs/heads/main.zip)
+---
 
 <table>
 <tr>
@@ -32,8 +34,8 @@ If this helped you, consider starring the repo ⭐
 </table>
 
 ---
-[If you want to use it from your browser and not an app, you can use my TikTok download Userscript. 
-Just make sure to use the TikTok file here. ](https://github.com/AlexRabbit/Userscripts)
+If you want to use it from your browser and not an app, you can use my [TikTok download Userscript](https://github.com/AlexRabbit/Userscripts). 
+Just make sure to use the TikTok there. 
 ---
 
 ## 🎯 What is this?
