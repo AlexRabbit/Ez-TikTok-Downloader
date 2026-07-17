@@ -12,7 +12,7 @@ import re
 import subprocess
 import sys
 import time
-from datetime import datetime
+from datetime import datetime, timezone
 from typing import Optional
 from urllib.parse import quote
 
@@ -313,7 +313,7 @@ def build_date_str(create_time: Optional[int]) -> str:
             return datetime.utcfromtimestamp(int(create_time)).strftime("%y-%m-%d")
         except (ValueError, OSError):
             pass
-    return datetime.utcnow().strftime("%y-%m-%d")
+    return datetime.now(timezone.utc).strftime("%y-%m-%d")
 
 
 def build_filename(entry: dict, ext: str = ".mp4") -> str:
@@ -485,4 +485,4 @@ def main() -> None:
 
 
 if __name__ == "__main__":
-    main()
+    main()
