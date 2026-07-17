@@ -310,7 +310,7 @@ def build_date_str(create_time: Optional[int]) -> str:
     """Format as YY-mm-dd from Unix timestamp or today."""
     if create_time is not None:
         try:
-            return datetime.utcfromtimestamp(int(create_time)).strftime("%y-%m-%d")
+            return datetime.fromtimestamp(int(create_time), tz=datetime.timezone.utc).strftime("%y-%m-%d")
         except (ValueError, OSError):
             pass
     return datetime.utcnow().strftime("%y-%m-%d")
