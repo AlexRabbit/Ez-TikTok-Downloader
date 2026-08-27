@@ -18,35 +18,10 @@ If this helped you, consider starring the repo ⭐
 
 ---
 
-## 🚀 Start here — double-click `run.bat`
-
-> **This is the main way to use Ez-TikTok-Downloader.** No terminal skills required.
-
-| Step | What to do |
-|:----:|------------|
-| **1️⃣** | Extract the project folder anywhere on your PC |
-| **2️⃣** *(first time only)* | Double-click **`dependencies.bat`** → wait for **Setup complete** |
-| **3️⃣** | Double-click **`run.bat`** |
-| **4️⃣** | Paste a TikTok URL and press **Enter** |
-| **5️⃣** | Find your video in **`profiles/`** 🎉 |
-| **6️⃣** | Keep pasting links — type **`quit`** when done |
-
-```
-   📂 Ez-TikTok-Downloader
-   ├── dependencies.bat   ← run ONCE (first time)
-   ├── run.bat            ← double-click THIS every time ⭐
-   ├── run_gui.bat        ← optional visual interface
-   ├── tt.py
-   └── profiles/          ← downloads appear here
-```
-
----
-
 ## ✨ What's new in v2
 
 | Feature | How to use |
 |---------|------------|
-| 🔗 **Shared cache** with [TikTok_Rabbit](https://github.com/AlexRabbit/Userscripts) | Export/import — see [Cache sync](#-shared-cache-with-tiktok_rabbit) |
 | 🖱️ **Drag & drop** | Drop a URL, `.txt`, or `.url` shortcut onto **`run.bat`** |
 | 📋 **Clipboard monitor** | `python tt.py --clipboard` or enable in GUI / `config.json` |
 | 🖥️ **GUI** | Double-click **`run_gui.bat`** |
@@ -67,29 +42,10 @@ If this helped you, consider starring the repo ⭐
 | 🖼️ **Photo fallback** | gallery-dl when TikWM fails on slideshows |
 | 🔐 **Private videos** | `sessionid.txt` for friends-only content |
 | 📁 **Organized by creator** | `profiles/username/` folders |
-| 📅 **Smart filenames** | `YY-mm-dd - ProfileUniqueID - Username - VideoID` |
 | 💾 **Shared cache** | Same link cache as the browser userscript |
 | 🔁 **Continuous mode** | Download one after another — no "Press any key" |
 | 👤 **Profile bulk** | Download all public posts from `@username` |
 
----
-
-## 🔄 Shared cache with TikTok_Rabbit
-
-Browser and desktop share the same TikWM link cache so you never fetch the same video twice.
-
-See **[CACHE_SPEC.md](./CACHE_SPEC.md)** for the full schema.
-
-### Browser → Desktop
-
-1. On TikTok with **TikTok_Rabbit** installed: click **Export cache** (bottom-left panel)
-2. Save `link_cache.json`
-3. Run: `python tt.py --import-cache link_cache.json --merge`
-
-### Desktop → Browser
-
-1. Run: `python tt.py --export-cache`
-2. On TikTok: click **Import cache** and select the file
 
 ---
 
@@ -107,24 +63,7 @@ The download starts immediately, then the continuous prompt loop continues.
 
 ## 📋 Clipboard monitor
 
-Auto-download when you copy a TikTok link:
-
-```batch
-python tt.py --clipboard
-```
-
-Or clipboard + interactive loop together:
-
-```batch
-python tt.py --clipboard --loop
-```
-
-Or set in **`config.json`**:
-
-```json
-"clipboard_monitor": true
-```
-
+Auto-download when you copy a TikTok link
 Also available as a checkbox in the **GUI**.
 
 ---
@@ -154,8 +93,6 @@ python tt.py "https://www.tiktok.com/@username"
 ```
 
 Or paste `@username` in the interactive prompt or GUI profile field.
-
-Uses `gallery-dl --flat-list` to enumerate posts, then downloads each with cache support. For private profiles, add **`cookies.txt`**.
 
 ---
 
@@ -210,34 +147,6 @@ Optional: copy `sessionid.txt.example` → `sessionid.txt` for private videos.
 
 ---
 
-## 🎮 CLI reference
-
-```batch
-python tt.py                              REM interactive loop
-python tt.py "URL"                          REM one URL then loop
-python tt.py urls.txt                       REM batch file
-python tt.py @username                      REM profile bulk
-python tt.py --profile username             REM profile bulk
-python tt.py --export-cache                 REM export shared cache
-python tt.py --import-cache file.json --merge
-python tt.py --clipboard                    REM clipboard only
-python tt.py --clipboard --loop             REM clipboard + prompt
-```
-
----
-
-## 📂 Output structure
-
-```
-profiles/
-└── creator/
-    ├── 26-07-30 - 265992760451776512 - creator - 7668119571810766098.mp4
-    ├── story/
-    └── highlight/
-```
-
----
-
 ## 🔐 Private videos
 
 Copy **`sessionid.txt.example`** → **`sessionid.txt`**, paste your TikTok `sessionid` cookie value.
@@ -246,33 +155,6 @@ For photo/slideshow fallback: copy **`cookies.txt.example`** → **`cookies.txt`
 
 ---
 
-## 📁 Project files
-
-| File | Purpose |
-|------|---------|
-| **`run.bat`** | Main launcher (double-click) |
-| **`run_gui.bat`** | GUI launcher |
-| **`dependencies.bat`** | One-time setup |
-| **`tt.py`** | CLI entry point |
-| **`gui.py`** | Tkinter GUI |
-| **`eztiktok/`** | Core package |
-| **`config.json.example`** | Settings template |
-| **`CACHE_SPEC.md`** | Shared cache specification |
-| **`Dockerfile`** | Container image |
-
----
-
-## 🔧 Troubleshooting
-
-| Problem | Fix |
-|--------|-----|
-| Python not found | Run `dependencies.bat` / `./dependencies.sh` |
-| Clipboard not working | `pip install pyperclip` |
-| GUI won't open (Linux) | `sudo apt install python3-tk` |
-| Profile list empty | Add `cookies.txt` for restricted profiles |
-| Import cache failed | Use schema v1 JSON from Export cache |
-
----
 
 ## 🙏 Credits
 
