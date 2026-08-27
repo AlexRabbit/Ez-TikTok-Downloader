@@ -2,7 +2,7 @@
 """
 Ez-TikTok-Downloader - Download TikTok without watermark, with link cache.
 Extracts download links via TikWM task API; caches them so a crash doesn't force re-extraction.
-Saves to username/username_videoID.mp4 (or images for slideshows).
+Saves to profiles/username/ with filenames: Date - ProfileUniqueID - Username - idPost.ext
 """
 from __future__ import annotations
 
@@ -12,7 +12,7 @@ import re
 import subprocess
 import sys
 import time
-from datetime import datetime
+from datetime import datetime, timezone
 from typing import Optional
 from urllib.parse import quote
 
@@ -310,21 +310,21 @@ def build_date_str(create_time: Optional[int]) -> str:
     """Format as YY-mm-dd from Unix timestamp or today."""
     if create_time is not None:
         try:
-            return datetime.utcfromtimestamp(int(create_time)).strftime("%y-%m-%d")
+            return datetime.fromtimestamp(int(create_time), tz=timezone.utc).strftime("%y-%m-%d")
         except (ValueError, OSError):
             pass
-    return datetime.utcnow().strftime("%y-%m-%d")
+    return datetime.now(timezone.utc).strftime("%y-%m-%d")
 
 
 def build_filename(entry: dict, ext: str = ".mp4") -> str:
-    """Username - Date(YY-mm-dd) - ProfileUniqueID - idPost"""
+    """Date(YY-mm-dd) - ProfileUniqueID - Username - idPost"""
     username = sanitize_filename(entry.get("username") or "unknown")
     date_str = build_date_str(entry.get("create_time"))
     profile_uid = entry.get("profile_uid") or "unknown"
     if isinstance(profile_uid, (int, float)):
         profile_uid = str(int(profile_uid))
     video_id = entry.get("video_id") or "unknown"
-    return f"{username} - {date_str} - {profile_uid} - {video_id}{ext}"
+    return f"{date_str} - {profile_uid} - {username} - {video_id}{ext}"
 
 
 def subfolder_for_content_type(content_type: str) -> str:
@@ -451,37 +451,57 @@ def process_one_url(tiktok_url: str, cache: dict, output_dir: str) -> bool:
     return do_download(cache[video_id], output_dir)
 
 
-def main() -> None:
-    if load_sessionid():
-        print("Using session ID from sessionid.txt (private videos supported).")
-    prompt = "Enter a TikTok video URL or path to a .txt file with URLs: "
-    if len(sys.argv) > 1:
-        user_input = sys.argv[1].strip()
-    else:
-        try:
-            user_input = input(prompt).strip()
-        except (EOFError, KeyboardInterrupt):
-            print("\nExiting.")
-            return
-    if not user_input:
-        print("No input.")
-        return
+PROMPT = "Enter a TikTok video URL or path to a .txt file with URLs (quit to exit): "
+EXIT_COMMANDS = frozenset({"quit", "exit", "q"})
 
-    output_dir = os.path.join(os.getcwd(), "profiles")
-    cache = load_cache()
 
+def process_input(user_input: str, cache: dict, output_dir: str) -> None:
+    """Process a single URL or a .txt batch file."""
     if user_input.lower().endswith(".txt"):
         if not os.path.isfile(user_input):
             print(f"File not found: {user_input}")
             return
         with open(user_input, "r", encoding="utf-8", errors="replace") as f:
             lines = [line.strip() for line in f if line.strip()]
+        if not lines:
+            print("No URLs found in file.")
+            return
         for i, url in enumerate(lines):
             if i > 0:
                 time.sleep(BATCH_DELAY_SEC)
             process_one_url(url, cache, output_dir)
-    else:
-        process_one_url(user_input, cache, output_dir)
+        return
+
+    process_one_url(user_input, cache, output_dir)
+
+
+def main() -> None:
+    if load_sessionid():
+        print("Using session ID from sessionid.txt (private videos supported).")
+
+    output_dir = os.path.join(os.getcwd(), "profiles")
+    cache = load_cache()
+    cli_arg = sys.argv[1].strip() if len(sys.argv) > 1 else None
+
+    while True:
+        if cli_arg:
+            user_input = cli_arg
+            cli_arg = None
+        else:
+            try:
+                user_input = input(PROMPT).strip()
+            except (EOFError, KeyboardInterrupt):
+                print("\nGoodbye!")
+                break
+
+        if user_input.lower() in EXIT_COMMANDS:
+            print("Goodbye!")
+            break
+        if not user_input:
+            continue
+
+        process_input(user_input, cache, output_dir)
+        print("\nDownload completed! Paste another link, or type quit to exit.\n")
 
 
 if __name__ == "__main__":

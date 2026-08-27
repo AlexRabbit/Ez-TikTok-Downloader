@@ -1,0 +1,10 @@
+# Copy this file to sessionid.txt and replace the line below with your TikTok session ID.
+# Do NOT commit sessionid.txt — it contains your login cookie.
+#
+# How to get your session ID:
+# 1. Log in to TikTok in your browser (https://www.tiktok.com)
+# 2. Open Developer Tools (F12) → Application → Cookies → tiktok.com
+# 3. Copy the value of the "sessionid" cookie
+# 4. Paste it on the next line (one line only, no quotes)
+#
+PASTE_YOUR_SESSIONID_HERE

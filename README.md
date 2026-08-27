@@ -1,5 +1,3 @@
-If this helped you, consider starring the repo ⭐
-
 <div align="center">
 
 # 🎬 Ez-TikTok-Downloader
@@ -8,142 +6,157 @@ If this helped you, consider starring the repo ⭐
 
 [![Python](https://img.shields.io/badge/Python-3.8+-3776AB?style=for-the-badge&logo=python&logoColor=white)](https://www.python.org/)
 [![License: Unlicense](https://img.shields.io/badge/License-Unlicense-lightgrey?style=for-the-badge)](./LICENSE)
+[![Author](https://img.shields.io/badge/Author-AlexRabbit-FF0050?style=for-the-badge&logo=github&logoColor=white)](https://github.com/AlexRabbit)
 
-**🚫 No watermark · 📺 ORIGINAL QUALITY · 💾 Smart link cache · 📁 Neat filenames**
+**🚫 No watermark · 📺 Original quality · 💾 Smart link cache · 📁 Archivist-friendly filenames · 🔁 Continuous downloads**
 
+If this helped you, consider starring the repo ⭐
+
+[📥 Download ZIP](https://github.com/AlexRabbit/Ez-TikTok-Downloader/archive/refs/heads/main.zip) · [🌐 Browser Userscript](https://github.com/AlexRabbit/Userscripts)
 
 </div>
 
 ---
-[DOWNLOAD THE APP](https://github.com/AlexRabbit/Ez-TikTok-Downloader/archive/refs/heads/main.zip)
----
 
-<table>
-<tr>
-<td width="69%">
+## 🚀 Start here — double-click `run.bat`
 
-### ⚡ Quick start
+> **This is the main way to use Ez-TikTok-Downloader.** No terminal skills required.
 
-1. Run **`dependencies.bat`** (once)
-2. Run **`run.bat`**
-3. Paste a TikTok URL or path to a `.txt` file
-4. Done! Check the **`profiles`** folder 🎉
+| Step | What to do |
+|:----:|------------|
+| **1️⃣** | Extract the project folder anywhere on your PC |
+| **2️⃣** *(first time only)* | Double-click **`dependencies.bat`** → wait for **Setup complete** → close the window |
+| **3️⃣** | Double-click **`run.bat`** |
+| **4️⃣** | Paste a TikTok URL and press **Enter** |
+| **5️⃣** | Find your video in the **`profiles`** folder 🎉 |
+| **6️⃣** | Paste another link — keep going! Type **`quit`** when you're done |
 
+```
+   📂 Ez-TikTok-Downloader
+   ├── dependencies.bat   ← run ONCE (first time setup)
+   ├── run.bat            ← double-click THIS every time ⭐
+   ├── tt.py
+   └── profiles/          ← your downloads appear here
+```
 
-</tr>
-</table>
+> 💡 **First launch?** Run `dependencies.bat` once before `run.bat`. It installs Python (if needed) and the required packages. After that, you only need `run.bat`.
 
----
-If you want to use it from your browser and not an app, you can use my [TikTok download Userscript](https://github.com/AlexRabbit/Userscripts). 
-Just make sure to use the TikTok there. 
 ---
 
 ## 🎯 What is this?
 
-**Ez-TikTok-Downloader** is a small, no-nonsense tool that:
+**Ez-TikTok-Downloader** by [AlexRabbit](https://github.com/AlexRabbit) is a small, no-nonsense Windows-friendly tool that downloads TikTok content without the watermark overlay.
 
 | Feature | Description |
-|--------|--------------|
-| 🌐 **ORIGINAL QUALITY** | Uses TikWM API for direct video links in original quality. |
-| 🖼️ **Photo/slideshow fallback** | If TikWM fails on a TikTok photo post, falls back to `gallery-dl` (photos/slideshows only). |
-| ✨ **PRIVATE VIDEOS** | Add your cookie sessionID and you are good to go. |
-| 🚫 **No watermark** | Saves the video without the TikTok logo overlay. |
-| 📁 **Organized by creator** | Everything goes into folders by username (and story/highlight subfolders when applicable). |
-| 📅 **Smart filenames** | `Username - Date(YY-mm-dd) - ProfileUniqueID - idPost` — archivist-friendly and sortable. |
-| 💾 **Link cache** | Once a download link is fetched, it’s saved. If the app crashes, you don’t re-fetch 50 links. |
-| 📄 **Batch from .txt** | Paste many URLs in a text file and point the script at it. |
+|--------|-------------|
+| 🌐 **Original quality** | Uses the TikWM API for direct, no-watermark video links |
+| 🖼️ **Photo/slideshow fallback** | If TikWM fails on a photo post, falls back to `gallery-dl` |
+| 🔐 **Private videos** | Add your TikTok session ID to download friends-only content |
+| 🚫 **No watermark** | Saves clean video files — no TikTok logo overlay |
+| 📁 **Organized by creator** | One folder per username (+ `story` / `highlight` subfolders) |
+| 📅 **Smart filenames** | `YY-mm-dd - ProfileUniqueID - Username - VideoID` — sortable & archivist-friendly |
+| 💾 **Link cache** | Download links are saved locally — crashes won't force re-extraction |
+| 📄 **Batch from .txt** | Drop many URLs in a text file and point the tool at it |
+| 🔁 **Continuous mode** | Download one video after another without restarting — no "Press any key" |
 
-You run it, paste a TikTok link (or a path to a `.txt` full of links), and it downloads. That’s it.
+You run it, paste a link, and it downloads. Paste another. Repeat. Type `quit` to close.
 
-### 🔄 How it works (flow)
+---
+
+## 🔄 How it works
 
 ```mermaid
 flowchart LR
-    A[📋 URL or .txt] --> B{Cache?}
-    B -->|Yes| C[⬇️ Download]
-    B -->|No| D[🌐 TikWM API]
-    D --> E[💾 Save to cache]
-    E --> C
-    C --> F[📁 profiles/username/]
+    A["🖱️ Double-click run.bat"] --> B["📋 Paste URL"]
+    B --> C{In cache?}
+    C -->|Yes| D["⬇️ Download"]
+    C -->|No| E["🌐 TikWM API"]
+    E --> F["💾 Save to cache"]
+    F --> D
+    D --> G["📁 profiles/username/"]
+    G --> H["🔁 Paste another link"]
+    H --> B
 ```
 
 ---
 
-## ✨ What you get
+## 📥 Full installation guide
 
-- **Videos** → One folder per **username**, filenames like:  
-  `Username - YY-mm-dd - ProfileUniqueID - VideoID.mp4`
-- **Stories** → Same username folder, inside a **`story`** subfolder.
-- **Highlights** → Same username folder, inside a **`highlight`** subfolder.
+### Prerequisites
 
-All without watermark, with a local cache so re-runs (or crashes) don’t waste time re-extracting links.
+- **Windows 10/11** (recommended — `.bat` launchers included)
+- Internet connection
+- *(Optional)* TikTok account — only needed for private/friends-only videos
 
----
+### Step 1 — Get the project 📦
 
+**Option A — Download ZIP (easiest):**
 
-## 📥 Installation (step by step)
+1. Go to [github.com/AlexRabbit/Ez-TikTok-Downloader](https://github.com/AlexRabbit/Ez-TikTok-Downloader)
+2. Click **Code → Download ZIP**
+3. Extract to a folder, e.g. `C:\Tools\Ez-TikTok-Downloader`
 
-### Step 1 — Get the project 📥
+**Option B — Git clone:**
 
-- **Option A:** Download the project as a ZIP from GitHub, then extract it to a folder (e.g. `C:\Users\You\Ez-TikTok-Downloader`).
-- **Option B:** If you use Git, clone the repo into that folder.
-
-You should see at least:
-
-| File | What it does |
-|------|----------------|
-| `tt.py` | Main script |
-| `requirements.txt` | Python dependencies |
-| `dependencies.bat` | One-time setup (Python + packages) |
-| `run.bat` | Launch the downloader |
-
-### Step 2 — Run the installer 🔧
-
-1. Open **File Explorer** and go to the folder where you extracted the project.
-2. Double‑click **`dependencies.bat`**.
-3. A black window (Command Prompt) will open and:
-   - Look for **Python**. If it’s missing, it will try to install it via **winget** (Windows Package Manager).
-   - If Python was just installed, it will ask you to **close the window, open a new one**, go back to the same folder, and run **`dependencies.bat`** again.
-   - If Python is already there, it will **upgrade pip** and install the required Python packages from `requirements.txt`.
-4. When you see something like **“Setup complete”**, you’re done. You can close the window.
-
-> 💡 **If you don’t have Python and winget doesn’t work**  
-> The script will tell you to install Python manually from [python.org](https://www.python.org/downloads/). During setup, **check “Add Python to PATH”**, then run **`dependencies.bat`** again from a new Command Prompt.
-
-### Step 3 — You’re ready ✅
-
-- To **run the downloader**, double‑click **`run.bat`** (or open a Command Prompt in that folder and type: `python tt.py`).
-
+```batch
+git clone https://github.com/AlexRabbit/Ez-TikTok-Downloader.git
+cd Ez-TikTok-Downloader
 ```
-   🎉 Setup complete!  →  Double‑click run.bat  →  Paste URL  →  Done!
-```
+
+### Step 2 — One-time setup 🔧
+
+1. Open the project folder in **File Explorer**
+2. **Double-click `dependencies.bat`**
+3. A Command Prompt window opens and:
+   - ✅ Finds Python — or installs it via **winget**
+   - ✅ Upgrades **pip**
+   - ✅ Installs packages from `requirements.txt` (`requests`, `gallery-dl`)
+4. When you see **"Setup complete"**, close the window
+
+> ⚠️ **If Python was just installed:** close the window, open a **new** Command Prompt, go back to the project folder, and run **`dependencies.bat`** again.
+
+> 💡 **No winget?** Install Python manually from [python.org](https://www.python.org/downloads/) — check **"Add Python to PATH"** during setup — then run `dependencies.bat` again.
+
+### Step 3 — You're ready ✅
+
+**Double-click `run.bat`** and paste your first TikTok URL!
 
 ---
 
 ## 🎮 How to use
 
-### One video
+### 🔁 Download one video after another (default)
 
-1. Run **`run.bat`** (or `python tt.py`).
-2. When it asks: **“Enter a TikTok video URL or path to a .txt file with URLs:”**
-3. Paste a link, for example:  
-   `https://www.tiktok.com/@creator/video/7123456789012345678`
-4. Press **Enter**.  
-   The video will be downloaded into the current folder.
+1. **Double-click `run.bat`**
+2. Paste a TikTok URL when prompted:
+   ```
+   https://www.tiktok.com/@creator/video/7123456789012345678
+   ```
+3. Press **Enter** — wait for `Downloaded: ...`
+4. You'll see:
+   ```
+   Download completed! Paste another link, or type quit to exit.
+   ```
+5. Paste the next URL — repeat as many times as you want
+6. Type **`quit`**, **`exit`**, or **`q`** when you're done
 
-### Many videos (batch)
+No window closing. No "Press any key to continue". Just keep pasting links.
 
-1. Create a **text file** (e.g. `my_links.txt`).
-2. Put **one TikTok URL per line**. Save the file.
-3. Run **`run.bat`** (or `python tt.py`).
-4. When prompted, type the **full path** to your file, e.g.:  
-   `C:\Users\You\Desktop\my_links.txt`
-5. Press **Enter**.  
-   The script will process each link (with a short delay between them to be nice to the server).
+### 📄 Batch download from a `.txt` file
 
-### From the command line (optional)
+1. Create a text file (e.g. `my_links.txt`)
+2. Put **one TikTok URL per line**
+3. Run **`run.bat`**
+4. When prompted, enter the full path:
+   ```
+   C:\Users\You\Desktop\my_links.txt
+   ```
+5. All links are processed (with a short delay between each)
+6. After the batch finishes, paste another link or type `quit`
 
-You can skip the prompt and pass the URL or file path directly:
+### ⌨️ Command line (optional)
+
+Pass a URL directly — after it downloads, the continuous loop still runs:
 
 ```batch
 python tt.py "https://www.tiktok.com/@creator/video/7123456789012345678"
@@ -155,140 +168,193 @@ python tt.py "C:\path\to\urls.txt"
 
 ---
 
-## 🔐 Private videos (session ID)
-
-To download **private** or **friends-only** videos, you can give the script your TikTok **session ID** (a cookie that proves you’re logged in). TikWM uses it to access content your account can see.
-
-### Steps
-
-1. **Log in to TikTok** in your browser (e.g. [tiktok.com](https://www.tiktok.com)).
-2. **Open your browser’s developer tools** (often **F12**), then go to **Application** (Chrome) or **Storage** (Firefox) → **Cookies** → `https://www.tiktok.com`.
-3. Find the cookie named **`sessionid`** and copy its **Value** (a long string of letters and numbers).
-4. In the **same folder as `tt.py`**, create a file named **`sessionid.txt`**.
-5. Paste **only the session ID value** into that file (one line, no spaces). Save and close.
-
-   You can paste either:
-   - Just the value: `5b1e4c753e7ftest00d85856eb0d67`
-   - Or the full form: `sessionid=5b1e4c75test56eb0d67`  
-   Both work.
-
-6. Run the script as usual. If it finds `sessionid.txt`, it will print **“Using session ID from sessionid.txt (private videos supported).”** and use that cookie when asking TikWM for links.
-
-To **stop** using your session, delete `sessionid.txt` or clear its contents.
-
-> ⚠️ **Keep your session ID secret.** Don’t share the file or commit it to Git. Anyone with it can act as your account.
-
-### Photo/slideshow fallback (`cookies.txt`)
-
-For **photo/slideshow** posts, the flow is: **TikWM (with `sessionid.txt`) → if that fails → gallery-dl with `cookies.txt`**.
-
-1. Export your TikTok cookies as **Netscape format** (browser extension such as “Get cookies.txt LOCALLY”).
-2. In the **same folder as `tt.py`**, save them as **`cookies.txt`** (see `cookies.txt.example`).
-3. gallery-dl always uses `--cookies cookies.txt` on photo/slideshow fallback.
-
-> ⚠️ **Keep `cookies.txt` secret** — do not commit it. It is listed in `.gitignore`.
-
----
-
 ## 📂 Where do my files go?
 
-Everything is saved in a **`profiles`** folder inside the directory where you ran the script (usually the same folder as `tt.py`).
-
+Everything saves to a **`profiles`** folder inside the project directory:
 
 ```
+profiles/
+└── creator_username/
+    ├── 25-06-15 - 6789012345678901234 - creator_username - 7123456789012345678.mp4
+    ├── story/
+    │   └── ...
+    └── highlight/
+        └── ...
+```
 
-### Filename format
+### 📅 Filename format
 
-Each file follows this pattern:
+Every file follows this pattern:
 
 ```text
-Username - Date(YY-mm-dd) - ProfileUniqueID - idPost
+YY-mm-dd - ProfileUniqueID - Username - VideoID.ext
 ```
 
-| Part | Meaning |
-|------|--------|
-| **Username** | TikTok @username (handle). |
-| **Date (YY-mm-dd)** | Post date when we know it (e.g. `25-03-11` = 2025‑03‑11). |
-| **ProfileUniqueID** | TikTok’s internal numeric user ID (or `unknown` if not available). |
-| **idPost** | The video/post ID. |
+| Part | Meaning | Example |
+|------|---------|---------|
+| **YY-mm-dd** | Post date (UTC) | `25-06-15` |
+| **ProfileUniqueID** | TikTok's numeric user ID | `6789012345678901234` |
+| **Username** | @handle | `creator_username` |
+| **VideoID** | Post / video ID | `7123456789012345678` |
 
-Example:  
-`example_creator - 25-06-15 - 6789012345678901234 - 7123456789012345678.mp4`
+**Full example:**
 
-Slideshows (image posts) get the same base name plus `_img_1`, `_img_2`, etc. (e.g. `.jpg`).
+```text
+25-06-15 - 6789012345678901234 - creator_username - 7123456789012345678.mp4
+```
+
+Slideshows use the same base name plus `_img_1`, `_img_2`, etc. (`.jpg`, `.png`, …).
+
+> 📌 **Upgrading from an older version?** Previously downloaded files keep their old names. New downloads use the updated format above.
 
 ---
 
-## 💾 The magic cache
+## 🔐 Private videos (session ID)
 
-To get the real download link, the script talks to an external API. That can take a few seconds per video. If you have 50 links and the program crashes at 30, you don’t want to start from zero.
+To download **private** or **friends-only** videos, provide your TikTok **session ID** cookie.
 
-So:
+### Setup
+
+1. Copy **`sessionid.txt.example`** → **`sessionid.txt`**
+2. Log in to [tiktok.com](https://www.tiktok.com) in your browser
+3. Open **Developer Tools** (F12) → **Application** → **Cookies** → `https://www.tiktok.com`
+4. Find the **`sessionid`** cookie and copy its **Value**
+5. Open `sessionid.txt` and paste the value on one line (no quotes):
+
+   ```text
+   5b1e4c753e7f00fc5400d85856eb0d67
+   ```
+
+   You can also use: `sessionid=5b1e4c753e7f00fc5400d85856eb0d67`
+
+6. Save and run **`run.bat`** as usual
+
+When detected, you'll see:
+
+```text
+Using session ID from sessionid.txt (private videos supported).
+```
+
+To stop using your session: delete `sessionid.txt` or clear its contents.
+
+> ⚠️ **Keep `sessionid.txt` secret.** Never share it or upload it to GitHub. Anyone with it can act as your logged-in account.
+
+---
+
+## 🖼️ Photo / slideshow fallback (`cookies.txt`)
+
+For **photo/slideshow** posts the flow is:
+
+**TikWM (with `sessionid.txt`) → if that fails → gallery-dl with `cookies.txt`**
+
+### Setup
+
+1. Copy **`cookies.txt.example`** → **`cookies.txt`**
+2. Install a cookie export extension (e.g. **Get cookies.txt LOCALLY** or [Cookie-Editor](https://cookie-editor.com))
+3. Log in to TikTok, export cookies for `tiktok.com` in **Netscape format**
+4. Paste the exported content into `cookies.txt`
+5. Save and run as usual
+
+> ⚠️ **Keep `cookies.txt` secret** — do not commit or share it.
+
+---
+
+## 💾 The link cache
+
+Fetching a download link from TikWM takes a few seconds. If you're downloading 50 videos and the app crashes at #30, you don't want to start over.
 
 | Step | What happens |
-|------|----------------|
-| 1️⃣ | **First time** → Script calls TikWM API, gets the link, **saves it to `link_cache.json`**, then downloads. |
-| 2️⃣ | **Next time** (or after a crash) → Script checks the cache; if the video is there, it **skips the API** and downloads from the cached link. |
-| 3️⃣ | You’ll see **`[Cache] Using cached link for …`** when a cached link is used. |
-
-So: first run = extract + download. After a crash or a new run = cached links are reused, no re-extraction. Links are treated as non-expiring for this purpose.
+|------|-------------|
+| 1️⃣ First time | TikWM API is called → link saved to **`link_cache.json`** → file downloaded |
+| 2️⃣ Next time | Cache is checked first → **`[Cache] Using cached link for …`** → instant download |
+| 3️⃣ After crash | Re-run `run.bat` → cached links reused → only missing videos call the API |
 
 ```
-   🔄 Crash at video 30?  →  Run again  →  Videos 1–30 from cache ⚡  →  Only 31–50 call the API
+   🔄 Crash at video 30?  →  Run again  →  1–30 from cache ⚡  →  Only 31–50 hit the API
 ```
+
+Delete `link_cache.json` anytime to start with a fresh cache.
+
+---
+
+## 📁 Project files
+
+| File | Purpose |
+|------|---------|
+| **`run.bat`** | ⭐ **Main launcher** — double-click this |
+| **`dependencies.bat`** | One-time setup (Python + packages) |
+| **`tt.py`** | Core downloader script |
+| **`requirements.txt`** | Python dependencies |
+| **`sessionid.txt.example`** | Template for private video access |
+| **`cookies.txt.example`** | Template for photo/slideshow fallback |
+| **`LICENSE`** | Unlicense (public domain) |
+
+**Generated locally (not in repo):**
+
+| File / folder | Purpose |
+|---------------|---------|
+| `profiles/` | Your downloaded videos & images |
+| `link_cache.json` | Cached download links |
+| `sessionid.txt` | Your TikTok session (you create this) |
+| `cookies.txt` | Your TikTok cookies (you create this) |
 
 ---
 
 ## 🔧 Troubleshooting
 
 | Problem | What to try |
-|--------|--------------|
-| **“Python not found”** | Run **`dependencies.bat`** again. If it installed Python, **close the window, open a new Command Prompt**, go back to the project folder, run **`dependencies.bat`** once more. |
-| **“No module named 'requests'”** | Open a Command Prompt in the project folder and run: `pip install -r requirements.txt` |
-| **“Extraction failed”** | The link might be invalid/private, or upstream service is busy. For `/photo/` links the tool auto-tries `gallery-dl` with `cookies.txt`. |
-| **“File not found” (when using a .txt)** | Type the **full path** to the file (e.g. `C:\Users\You\Desktop\urls.txt`). |
-| **Videos not playing** | Make sure you’re not opening the file while it’s still being written. Wait for “Downloaded: …” to appear. |
+|--------|-------------|
+| **"Python not found"** | Run **`dependencies.bat`**. If Python was just installed, close the window, open a new one, run **`dependencies.bat`** again. |
+| **"No module named 'requests'"** | Open Command Prompt in the project folder: `pip install -r requirements.txt` |
+| **"Extraction failed"** | Link may be invalid, private, or TikWM is busy. For `/photo/` links, add `cookies.txt`. For private videos, add `sessionid.txt`. |
+| **"File not found" (.txt batch)** | Use the **full path** to your file, e.g. `C:\Users\You\Desktop\urls.txt` |
+| **Video won't play** | Wait until `Downloaded: …` appears — the file may still be writing |
+| **Window closes immediately** | Run `dependencies.bat` first. If Python is missing, the window may flash and close. |
+| **Old filename format** | Only new downloads use the updated naming. Delete old files to re-download with new names. |
 
 ---
 
 ## ❓ FAQ
 
 **Q: Do I need a TikTok account?**  
-A: No. Public links are enough.
+A: No — public links work out of the box.
 
 **Q: Can I download private videos?**  
-A: **Yes** for videos: add **`sessionid.txt`**. For **private photo/slideshow** posts, also add **`cookies.txt`** (Netscape export) for the gallery-dl fallback.
+A: Yes — create `sessionid.txt` from the example template. For private photo posts, also add `cookies.txt`.
 
-**Q: Where is the cache file?**  
-A: **`link_cache.json`** in the same folder where you run `tt.py` (usually the project folder). You can delete it to start with a fresh cache.
+**Q: Where is the cache?**  
+A: `link_cache.json` in the project folder. Safe to delete.
 
 **Q: Can I change the download folder?**  
-A: Run the script from the folder where you want the **`profiles`** folder to appear (e.g. `cd C:\Videos`, then `python path\to\tt.py`). Downloads will go to `profiles/` inside that directory. The cache file (`link_cache.json`) is created in the same directory where you run the script.
+A: Run the script from whichever folder you want `profiles/` to appear in: `cd C:\Videos` then `python C:\path\to\tt.py`.
 
-**Q: Is this against TikTok’s rules?**  
-A: Use it for content you’re allowed to download (e.g. your own, or where you have permission). The authors are not responsible for misuse.
+**Q: Does it work on Mac / Linux?**  
+A: The `.bat` files are Windows-only, but `python tt.py` works anywhere Python 3.8+ is installed.
+
+**Q: Is this against TikTok's terms?**  
+A: Use it only for content you're allowed to download (your own, or with permission). You are responsible for how you use this tool.
+
+**Q: Prefer downloading from the browser?**  
+A: Check out my [TikTok download Userscript](https://github.com/AlexRabbit/Userscripts) — works directly in your browser.
 
 ---
 
 ## 🙏 Acknowledgements
 
-- **[TikWM](https://www.tikwm.com)** — This project uses TikWM’s API to fetch no-watermark download links. Thanks to them for providing the service.
- 
+- **[TikWM](https://www.tikwm.com)** — API for no-watermark download links
+- **[gallery-dl](https://github.com/mikf/gallery-dl)** — photo/slideshow fallback
+- **[AlexRabbit](https://github.com/AlexRabbit)** — creator & maintainer
 
 ---
 
 <div align="center">
 
+**Made with ❤️ by [AlexRabbit](https://github.com/AlexRabbit)**
 
 *If you found it useful, a ⭐ on GitHub is always appreciated.*
 
----
+<br>
 
-<sub>🎬 Ez-TikTok-Downloader · No watermark · Cache · Session ID · Profiles folder</sub>
+<sub>🎬 Ez-TikTok-Downloader · No watermark · Cache · Session ID · Continuous downloads · Profiles folder</sub>
 
 </div>
-
-
-
-
-

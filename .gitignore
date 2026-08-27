@@ -3,3 +3,9 @@ profiles_test/
 link_cache.json
 sessionid.txt
 cookies.txt
+__pycache__/
+*.pyc
+*.pyo
+.env
+.DS_Store
+Thumbs.db
