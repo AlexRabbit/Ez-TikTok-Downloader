@@ -1,8 +1,10 @@
 profiles/
 profiles_test/
 link_cache.json
+link_cache_export.json
 sessionid.txt
 cookies.txt
+config.json
 __pycache__/
 *.pyc
 *.pyo

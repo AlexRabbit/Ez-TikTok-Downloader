@@ -1,0 +1,12 @@
+{
+  "output_dir": "profiles",
+  "cache_file": "link_cache.json",
+  "batch_delay_sec": 2,
+  "naming_template": "{date} - {profile_uid} - {username} - {video_id}{ext}",
+  "request_timeout": 25,
+  "poll_interval": 1.0,
+  "poll_attempts": 60,
+  "clipboard_monitor": false,
+  "clipboard_poll_sec": 1.5,
+  "clipboard_dedupe_sec": 30
+}

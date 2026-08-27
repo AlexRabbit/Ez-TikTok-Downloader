@@ -1,0 +1,9 @@
+services:
+  ez-tiktok:
+    build: .
+    volumes:
+      - ./profiles:/data/profiles
+      - ./link_cache.json:/data/link_cache.json
+      - ./config.json:/data/config.json
+    stdin_open: true
+    tty: true
